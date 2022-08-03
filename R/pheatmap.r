@@ -288,7 +288,7 @@ draw_annotations = function(converted_annotations, border_color, gaps, fontsize,
     x = coord_x$coord - 0.5 * coord_x$size
     
     # y = cumsum(rep(fontsize, n)) - 4 + cumsum(rep(2, n))
-    padpts = attr(convertUnit(pad, "bigpts"), "unit")
+    padpts = convertUnit(pad, "bigpts", valueOnly=TRUE)
     y = cumsum(rep(fontsize, n)) + cumsum(rep(padpts, n)) - fontsize / 2 + 1
     y = unit(y, "bigpts")
     
@@ -313,7 +313,7 @@ draw_annotation_names = function(annotations, fontsize, pad, horizontal, hjust_c
     
     x = unit(3, "bigpts")
     
-    padpts = attr(convertUnit(pad, "bigpts"), "unit")
+    padpts = convertUnit(pad, "bigpts", valueOnly=TRUE)
     y = cumsum(rep(fontsize, n)) + cumsum(rep(padpts, n)) - fontsize / 2 + 1
     y = unit(y, "bigpts")
 
