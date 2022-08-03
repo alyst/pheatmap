@@ -279,7 +279,7 @@ convert_annotations = function(annotation, annotation_colors){
     return(as.matrix(new))
 }
 
-draw_annotations = function(converted_annotations, border_color, gaps, fontsize, horizontal){
+draw_annotations = function(converted_annotations, border_color, gaps, fontsize, pad, horizontal){
     n = ncol(converted_annotations)
     m = nrow(converted_annotations)
     
@@ -288,8 +288,7 @@ draw_annotations = function(converted_annotations, border_color, gaps, fontsize,
     x = coord_x$coord - 0.5 * coord_x$size
     
     # y = cumsum(rep(fontsize, n)) - 4 + cumsum(rep(2, n))
-    y = cumsum(rep(fontsize, n)) + cumsum(rep(2, n)) - fontsize / 2 + 1 
-    y = unit(y, "bigpts")
+    y = cumsum(rep(unit(fontsize, "bigpts"), n)) + cumsum(rep(pad, n)) - unit(fontsize, "bigpts") / 2 + unit(1, "bigpts")
     
     if(horizontal){
         coord = expand.grid(x = x, y = y)
@@ -307,13 +306,12 @@ draw_annotations = function(converted_annotations, border_color, gaps, fontsize,
     return(res)
 }
 
-draw_annotation_names = function(annotations, fontsize, horizontal, hjust_col, vjust_col, angle_col){
+draw_annotation_names = function(annotations, fontsize, pad, horizontal, hjust_col, vjust_col, angle_col){
     n = ncol(annotations)
     
     x = unit(3, "bigpts")
     
-    y = cumsum(rep(fontsize, n)) + cumsum(rep(2, n)) - fontsize / 2 + 1 
-    y = unit(y, "bigpts")
+    y = cumsum(rep(unit(fontsize, "bigpts"), n)) + cumsum(rep(pad, n)) - unit(fontsize, "bigpts") / 2 + unit(1, "bigpts")
     
     if(horizontal){
         res = textGrob(colnames(annotations), x = x, y = y, hjust = 0, gp = gpar(fontsize = fontsize, fontface = 2))
@@ -463,12 +461,12 @@ heatmap_motor = function(matrix, border_color, cellwidth, cellheight, tree_col, 
     if(!is.na2(annotation_col)){
         # Draw tracks
         converted_annotation = convert_annotations(annotation_col, annotation_colors)
-        elem = draw_annotations(converted_annotation, border_color, gaps_col, fontsize, horizontal = T)
+        elem = draw_annotations(converted_annotation, border_color, gaps_col, fontsize, annotation_col_pad, horizontal = T)
         res = gtable_add_grob(res, elem, t = 3, l = 3, clip = "off", name = "col_annotation")
         
         # Draw names
         if(annotation_names_col){
-            elem = draw_annotation_names(annotation_col, fontsize, horizontal = T)
+            elem = draw_annotation_names(annotation_col, fontsize, annotation_col_pad, horizontal = T)
             res = gtable_add_grob(res, elem, t = 3, l = 4, clip = "off", name = "col_annotation_names")
         }
     }
@@ -477,12 +475,12 @@ heatmap_motor = function(matrix, border_color, cellwidth, cellheight, tree_col, 
     if(!is.na2(annotation_row)){
         # Draw tracks
         converted_annotation = convert_annotations(annotation_row, annotation_colors)
-        elem = draw_annotations(converted_annotation, border_color, gaps_row, fontsize, horizontal = F)
+        elem = draw_annotations(converted_annotation, border_color, gaps_row, fontsize, annotation_row_pad, horizontal = F)
         res = gtable_add_grob(res, elem, t = 4, l = 2, clip = "off", name = "row_annotation")
         
         # Draw names
         if(annotation_names_row){
-            elem = draw_annotation_names(annotation_row, fontsize, horizontal = F, hjust_col = hjust_col, vjust_col = vjust_col, angle_col = angle_col)
+            elem = draw_annotation_names(annotation_row, fontsize, annotation_row_pad, horizontal = F, hjust_col = hjust_col, vjust_col = vjust_col, angle_col = angle_col)
             res = gtable_add_grob(res, elem, t = 5, l = 2, clip = "off", name = "row_annotation_names")
         }
     }
