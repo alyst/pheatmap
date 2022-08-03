@@ -294,7 +294,7 @@ draw_annotations = function(converted_annotations, border_color, gaps, fontsize,
     
     if(horizontal){
         coord = expand.grid(x = x, y = y)
-        res = rectGrob(x = coord$x, y = coord$y, width = coord_x$size, height = unit(fontsize - 2, "bigpts") + padpts, gp = gpar(fill = converted_annotations, col = border_color))
+        res = rectGrob(x = coord$x, y = coord$y, width = coord_x$size, height = unit(fontsize - 2, "bigpts") + pad, gp = gpar(fill = converted_annotations, col = border_color))
     }
     else{
         a = x
@@ -302,7 +302,7 @@ draw_annotations = function(converted_annotations, border_color, gaps, fontsize,
         y = unit(1, "npc") - a
         
         coord = expand.grid(y = y, x = x)
-        res = rectGrob(x = coord$x, y = coord$y, width = unit(fontsize - 2, "bigpts") + padpts, height = coord_x$size, gp = gpar(fill = converted_annotations, col = border_color))
+        res = rectGrob(x = coord$x, y = coord$y, width = unit(fontsize - 2, "bigpts") + pad, height = coord_x$size, gp = gpar(fill = converted_annotations, col = border_color))
     }
     
     return(res)
