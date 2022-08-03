@@ -291,6 +291,7 @@ draw_annotations = function(converted_annotations, border_color, gaps, fontsize,
     padpts = convertUnit(pad, "bigpts", valueOnly=TRUE)
     y = cumsum(rep(fontsize, n)) + cumsum(rep(padpts, n)) - fontsize / 2 + 1
     y = unit(y, "bigpts")
+    print(y)
     
     if(horizontal){
         coord = expand.grid(x = x, y = y)
@@ -316,6 +317,7 @@ draw_annotation_names = function(annotations, fontsize, pad, horizontal, hjust_c
     padpts = convertUnit(pad, "bigpts", valueOnly=TRUE)
     y = cumsum(rep(fontsize, n)) + cumsum(rep(padpts, n)) - fontsize / 2 + 1
     y = unit(y, "bigpts")
+    print(y)
 
     if(horizontal){
         res = textGrob(colnames(annotations), x = x, y = y, hjust = 0, gp = gpar(fontsize = fontsize, fontface = 2))
